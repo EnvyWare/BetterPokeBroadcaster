@@ -51,6 +51,7 @@ public class PokeSpawnListener {
                                             .replace("%y%", pixelmon.getY() + "")
                                             .replace("%z%", pixelmon.getZ() + "")
                                             .replace("%world%", UtilWorld.getName(pixelmon.level) + "")
+                                            .replace("%pokemon%", pixelmon.getPokemonName())
                             ),
                             ChatType.CHAT,
                             Util.NIL_UUID
