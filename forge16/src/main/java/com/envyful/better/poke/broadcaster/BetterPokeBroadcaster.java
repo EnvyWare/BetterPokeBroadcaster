@@ -3,6 +3,7 @@ package com.envyful.better.poke.broadcaster;
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.command.ForgeCommandFactory;
 import com.envyful.better.poke.broadcaster.config.BetterPokeBroadcasterConfig;
+import com.envyful.better.poke.broadcaster.listener.PokeSpawnListener;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,6 +30,8 @@ public class BetterPokeBroadcaster {
     @SubscribeEvent
     public void onServerStart(FMLServerStartingEvent event) {
         this.reloadConfig();
+
+        new PokeSpawnListener();
     }
 
     public void reloadConfig() {
@@ -42,5 +45,13 @@ public class BetterPokeBroadcaster {
     @SubscribeEvent
     public void onCommandRegister(RegisterCommandsEvent event) {
 
+    }
+
+    public static BetterPokeBroadcaster getInstance() {
+        return instance;
+    }
+
+    public BetterPokeBroadcasterConfig getConfig() {
+        return this.config;
     }
 }

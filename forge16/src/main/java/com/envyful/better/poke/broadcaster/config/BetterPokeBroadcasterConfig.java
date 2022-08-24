@@ -16,7 +16,7 @@ import java.util.Map;
 public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
 
     private Map<String, BroadcastOption> broadcastOptions = ImmutableMap.of(
-            "one", new BroadcastOption("shiny", Lists.newArrayList(
+            "one", new BroadcastOption("shiny", 30, Lists.newArrayList(
                     "&8-------",
                     "&a%pokemon% %nearest_name% %x%, %y%, %z%, %world%",
                     "&8-------"
@@ -36,14 +36,20 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
 
         private String spec;
         private transient PokemonSpecification pokemonSpec;
+        private double nearestPlayerRadius;
         private List<String> broadcasts;
 
-        public BroadcastOption(String spec, List<String> broadcasts) {
+        public BroadcastOption(String spec, double nearestPlayerRadius, List<String> broadcasts) {
             this.spec = spec;
+            this.nearestPlayerRadius = nearestPlayerRadius;
             this.broadcasts = broadcasts;
         }
 
         public BroadcastOption() {
+        }
+
+        public double getNearestPlayerRadius() {
+            return this.nearestPlayerRadius;
         }
 
         public PokemonSpecification getSpec() {
