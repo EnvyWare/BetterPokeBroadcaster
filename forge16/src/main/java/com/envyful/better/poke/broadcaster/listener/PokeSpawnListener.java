@@ -8,9 +8,11 @@ import com.envyful.better.poke.broadcaster.BetterPokeBroadcaster;
 import com.envyful.better.poke.broadcaster.config.BetterPokeBroadcasterConfig;
 import com.pixelmonmod.pixelmon.Pixelmon;
 import com.pixelmonmod.pixelmon.api.events.spawning.SpawnEvent;
+import com.pixelmonmod.pixelmon.api.util.helpers.BiomeHelper;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,7 +45,7 @@ public class PokeSpawnListener {
                     continue;
                 }
 
-                PlayerEntity nearestPlayer = pixelmon.level.getNearestPlayer(pixelmon, option.getNearestPlayerRadius());
+                ServerPlayerEntity nearestPlayer = (ServerPlayerEntity)pixelmon.level.getNearestPlayer(pixelmon, option.getNearestPlayerRadius());
 
                 for (String broadcast : option.getBroadcasts()) {
                     ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastMessage(
@@ -55,6 +57,7 @@ public class PokeSpawnListener {
                                             .replace("%z%", pixelmon.getZ() + "")
                                             .replace("%world%", UtilWorld.getName(pixelmon.level) + "")
                                             .replace("%pokemon%", pixelmon.getPokemonName())
+                                            .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString())
                             ),
                             ChatType.CHAT,
                             Util.NIL_UUID
@@ -62,7 +65,7 @@ public class PokeSpawnListener {
                 }
 
                 if (option.isWebHookEnabled()) {
-                    DiscordWebHook webHook = option.getWebHook();
+                    DiscordWebHook webHook = option.getWebHook(nearestPlayer, pixelmon);
 
                     if (webHook != null) {
                         try {

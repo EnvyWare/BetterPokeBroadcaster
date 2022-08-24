@@ -3,10 +3,14 @@ package com.envyful.better.poke.broadcaster.config;
 import com.envyful.api.config.data.ConfigPath;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.discord.DiscordWebHook;
+import com.envyful.api.forge.world.UtilWorld;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.pixelmonmod.api.pokemon.PokemonSpecification;
 import com.pixelmonmod.api.pokemon.PokemonSpecificationProxy;
+import com.pixelmonmod.pixelmon.api.util.helpers.BiomeHelper;
+import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import org.apache.commons.io.FileUtils;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
@@ -77,7 +81,7 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
             return this.webhook == null || this.webhook.equalsIgnoreCase("none");
         }
 
-        public DiscordWebHook getWebHook() {
+        public DiscordWebHook getWebHook(ServerPlayerEntity nearestPlayer, PixelmonEntity pixelmon) {
             if (this.readFile == null) {
                 try {
                     this.readFile = String.join(System.lineSeparator(), Files.readAllLines(Paths.get(this.webhook), StandardCharsets.UTF_8));
@@ -86,7 +90,16 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
                 }
             }
 
-            return DiscordWebHook.fromJson(this.readFile);
+            return DiscordWebHook.fromJson(
+                    this.readFile
+                            .replace("%nearest_name%", nearestPlayer.getName().getString())
+                            .replace("%x%", pixelmon.getX() + "")
+                            .replace("%y%", pixelmon.getY() + "")
+                            .replace("%z%", pixelmon.getZ() + "")
+                            .replace("%world%", UtilWorld.getName(pixelmon.level) + "")
+                            .replace("%pokemon%", pixelmon.getPokemonName())
+                            .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString())
+            );
         }
     }
 }
