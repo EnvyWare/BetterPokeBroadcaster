@@ -2,6 +2,7 @@ package com.envyful.better.poke.broadcaster;
 
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.command.ForgeCommandFactory;
+import com.envyful.better.poke.broadcaster.command.PokeBroadcasterCommand;
 import com.envyful.better.poke.broadcaster.config.BetterPokeBroadcasterConfig;
 import com.envyful.better.poke.broadcaster.listener.PokeSpawnListener;
 import net.minecraftforge.common.MinecraftForge;
@@ -44,7 +45,7 @@ public class BetterPokeBroadcaster {
 
     @SubscribeEvent
     public void onCommandRegister(RegisterCommandsEvent event) {
-
+        this.commandFactory.registerCommand(event.getDispatcher(), new PokeBroadcasterCommand());
     }
 
     public static BetterPokeBroadcaster getInstance() {
