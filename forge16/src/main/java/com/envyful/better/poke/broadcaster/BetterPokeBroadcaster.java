@@ -25,6 +25,7 @@ public class BetterPokeBroadcaster {
     private BetterPokeBroadcasterConfig config;
 
     public BetterPokeBroadcaster() {
+        instance = this;
         MinecraftForge.EVENT_BUS.register(this);
     }
 
