@@ -31,13 +31,13 @@ public class PokeSpawnListener {
             return;
         }
 
+        PixelmonEntity pixelmon = (PixelmonEntity) entity;
+
+        if (pixelmon.getOwner() != null) {
+            return;
+        }
+
         UtilConcurrency.runAsync(() -> {
-            PixelmonEntity pixelmon = (PixelmonEntity) entity;
-
-            if (pixelmon.getOwner() != null) {
-                return;
-            }
-
             for (BetterPokeBroadcasterConfig.BroadcastOption option : BetterPokeBroadcaster.getInstance().getConfig().getOptions()) {
                 if (!option.getSpec().matches(pixelmon)) {
                     continue;
