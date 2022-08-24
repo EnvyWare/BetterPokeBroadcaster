@@ -51,6 +51,7 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
             this.spec = spec;
             this.nearestPlayerRadius = nearestPlayerRadius;
             this.broadcasts = broadcasts;
+            this.webhook = webhook;
         }
 
         public BroadcastOption() {
@@ -73,7 +74,7 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
         }
 
         public boolean isWebHookEnabled() {
-            return this.webhook.equalsIgnoreCase("none");
+            return this.webhook == null || this.webhook.equalsIgnoreCase("none");
         }
 
         public DiscordWebHook getWebHook() {
