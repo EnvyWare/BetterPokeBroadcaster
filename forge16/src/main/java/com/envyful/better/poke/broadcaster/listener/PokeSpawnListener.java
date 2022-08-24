@@ -49,7 +49,7 @@ public class PokeSpawnListener {
                     ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastMessage(
                             UtilChatColour.colour(
                                     broadcast
-                                            .replace("%nearest_player%", nearestPlayer.getName().getString())
+                                            .replace("%nearest_name%", nearestPlayer.getName().getString())
                                             .replace("%x%", pixelmon.getX() + "")
                                             .replace("%y%", pixelmon.getY() + "")
                                             .replace("%z%", pixelmon.getZ() + "")
