@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/EnvyWare/BetterPokeBroadcaster/issues"
 
 [[mods]]
 modId="betterpokebroadcaster"
-version="0.0.1"
+version="1.0.0"
 displayName="BetterPokeBroadcaster"
 displayURL="https://github.com/EnvyWare"
 credits="https://github.com/EnvyWare"
