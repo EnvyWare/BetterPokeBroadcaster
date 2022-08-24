@@ -1,6 +1,7 @@
 package com.envyful.better.poke.broadcaster.listener;
 
 import com.envyful.api.concurrency.UtilConcurrency;
+import com.envyful.api.discord.DiscordWebHook;
 import com.envyful.api.forge.chat.UtilChatColour;
 import com.envyful.api.forge.world.UtilWorld;
 import com.envyful.better.poke.broadcaster.BetterPokeBroadcaster;
@@ -14,6 +15,8 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
+
+import java.io.IOException;
 
 public class PokeSpawnListener {
     public PokeSpawnListener() {
@@ -56,6 +59,18 @@ public class PokeSpawnListener {
                             ChatType.CHAT,
                             Util.NIL_UUID
                     );
+                }
+
+                if (option.isWebHookEnabled()) {
+                    DiscordWebHook webHook = option.getWebHook();
+
+                    if (webHook != null) {
+                        try {
+                            webHook.execute();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                 }
             }
         });
