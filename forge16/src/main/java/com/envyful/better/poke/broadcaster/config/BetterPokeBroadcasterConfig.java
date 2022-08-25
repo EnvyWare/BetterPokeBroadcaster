@@ -26,7 +26,7 @@ import java.util.Map;
 public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
 
     private Map<String, BroadcastOption> broadcastOptions = ImmutableMap.of(
-            "one", new BroadcastOption("shiny", 30, "none", Lists.newArrayList(
+            "one", new BroadcastOption("shiny", 30, "none", false, Lists.newArrayList(
                     "&8-------",
                     "&a%pokemon% %nearest_name% %x%, %y%, %z%, %world%",
                     "&8-------"
@@ -50,12 +50,14 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
         private List<String> broadcasts;
         private String webhook;
         private String readFile = null;
+        private boolean nearestPlayerOnly;
 
-        public BroadcastOption(String spec, double nearestPlayerRadius, String webhook, List<String> broadcasts) {
+        public BroadcastOption(String spec, double nearestPlayerRadius, String webhook, boolean nearestPlayerOnly, List<String> broadcasts) {
             this.spec = spec;
             this.nearestPlayerRadius = nearestPlayerRadius;
             this.broadcasts = broadcasts;
             this.webhook = webhook;
+            this.nearestPlayerOnly = nearestPlayerOnly;
         }
 
         public BroadcastOption() {
@@ -79,6 +81,10 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
 
         public boolean isWebHookEnabled() {
             return this.webhook == null || this.webhook.equalsIgnoreCase("none");
+        }
+
+        public boolean isNearestPlayerOnly() {
+            return this.nearestPlayerOnly;
         }
 
         public DiscordWebHook getWebHook(ServerPlayerEntity nearestPlayer, PixelmonEntity pixelmon) {

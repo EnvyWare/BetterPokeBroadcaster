@@ -47,21 +47,41 @@ public class PokeSpawnListener {
 
                 ServerPlayerEntity nearestPlayer = (ServerPlayerEntity)pixelmon.level.getNearestPlayer(pixelmon, option.getNearestPlayerRadius());
 
+                if (nearestPlayer == null && option.isNearestPlayerOnly()) {
+                    continue;
+                }
+
                 for (String broadcast : option.getBroadcasts()) {
-                    ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastMessage(
-                            UtilChatColour.colour(
-                                    broadcast
-                                            .replace("%nearest_name%", nearestPlayer == null ? "None" : nearestPlayer.getName().getString())
-                                            .replace("%x%", pixelmon.getX() + "")
-                                            .replace("%y%", pixelmon.getY() + "")
-                                            .replace("%z%", pixelmon.getZ() + "")
-                                            .replace("%world%", UtilWorld.getName(pixelmon.level) + "")
-                                            .replace("%pokemon%", pixelmon.getPokemonName())
-                                            .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString())
-                            ),
-                            ChatType.CHAT,
-                            Util.NIL_UUID
-                    );
+                    if (option.isNearestPlayerOnly()) {
+                        nearestPlayer.sendMessage(
+                                UtilChatColour.colour(
+                                        broadcast
+                                                .replace("%nearest_name%", nearestPlayer == null ? "None" : nearestPlayer.getName().getString())
+                                                .replace("%x%", pixelmon.getX() + "")
+                                                .replace("%y%", pixelmon.getY() + "")
+                                                .replace("%z%", pixelmon.getZ() + "")
+                                                .replace("%world%", UtilWorld.getName(pixelmon.level) + "")
+                                                .replace("%pokemon%", pixelmon.getPokemonName())
+                                                .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString())
+                                ),
+                                Util.NIL_UUID
+                        );
+                    } else {
+                        ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastMessage(
+                                UtilChatColour.colour(
+                                        broadcast
+                                                .replace("%nearest_name%", nearestPlayer == null ? "None" : nearestPlayer.getName().getString())
+                                                .replace("%x%", pixelmon.getX() + "")
+                                                .replace("%y%", pixelmon.getY() + "")
+                                                .replace("%z%", pixelmon.getZ() + "")
+                                                .replace("%world%", UtilWorld.getName(pixelmon.level) + "")
+                                                .replace("%pokemon%", pixelmon.getPokemonName())
+                                                .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString())
+                                ),
+                                ChatType.CHAT,
+                                Util.NIL_UUID
+                        );
+                    }
                 }
 
                 if (option.isWebHookEnabled()) {
