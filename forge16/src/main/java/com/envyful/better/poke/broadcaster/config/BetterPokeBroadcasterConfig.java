@@ -3,15 +3,14 @@ package com.envyful.better.poke.broadcaster.config;
 import com.envyful.api.config.data.ConfigPath;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.discord.DiscordWebHook;
-import com.envyful.api.forge.world.UtilWorld;
+import com.envyful.better.poke.broadcaster.api.type.BroadcasterType;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.pixelmonmod.api.pokemon.PokemonSpecification;
 import com.pixelmonmod.api.pokemon.PokemonSpecificationProxy;
-import com.pixelmonmod.pixelmon.api.util.helpers.BiomeHelper;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import org.apache.commons.io.FileUtils;
+import net.minecraftforge.eventbus.api.Event;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 import java.io.IOException;
@@ -26,7 +25,7 @@ import java.util.Map;
 public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
 
     private Map<String, BroadcastOption> broadcastOptions = ImmutableMap.of(
-            "one", new BroadcastOption("shiny", 30, "none", false, Lists.newArrayList(
+            "one", new BroadcastOption("spawn", "shiny", 30, "none", false, Lists.newArrayList(
                     "&8-------",
                     "&a%pokemon% %nearest_name% %x%, %y%, %z%, %world%",
                     "&8-------"
@@ -44,6 +43,7 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
     @ConfigSerializable
     public static class BroadcastOption {
 
+        private String type;
         private String spec;
         private transient PokemonSpecification pokemonSpec;
         private double nearestPlayerRadius;
@@ -52,7 +52,9 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
         private String readFile = null;
         private boolean nearestPlayerOnly;
 
-        public BroadcastOption(String spec, double nearestPlayerRadius, String webhook, boolean nearestPlayerOnly, List<String> broadcasts) {
+        public BroadcastOption(String type, String spec, double nearestPlayerRadius, String webhook,
+                               boolean nearestPlayerOnly, List<String> broadcasts) {
+            this.type = type;
             this.spec = spec;
             this.nearestPlayerRadius = nearestPlayerRadius;
             this.broadcasts = broadcasts;
@@ -61,6 +63,10 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
         }
 
         public BroadcastOption() {
+        }
+
+        public String getType() {
+            return this.type;
         }
 
         public double getNearestPlayerRadius() {
@@ -87,7 +93,7 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
             return this.nearestPlayerOnly;
         }
 
-        public DiscordWebHook getWebHook(ServerPlayerEntity nearestPlayer, PixelmonEntity pixelmon) {
+        public DiscordWebHook getWebHook(Event event, ServerPlayerEntity nearestPlayer, BroadcasterType<?> type, PixelmonEntity pixelmon) {
             if (this.readFile == null) {
                 try {
                     this.readFile = String.join(System.lineSeparator(), Files.readAllLines(Paths.get(this.webhook), StandardCharsets.UTF_8));
@@ -97,14 +103,7 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
             }
 
             return DiscordWebHook.fromJson(
-                    this.readFile
-                            .replace("%nearest_name%", nearestPlayer.getName().getString())
-                            .replace("%x%", pixelmon.getX() + "")
-                            .replace("%y%", pixelmon.getY() + "")
-                            .replace("%z%", pixelmon.getZ() + "")
-                            .replace("%world%", UtilWorld.getName(pixelmon.level) + "")
-                            .replace("%pokemon%", pixelmon.getPokemonName())
-                            .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString())
+                    type.translateMessage(event, this.readFile, pixelmon, nearestPlayer)
             );
         }
     }
