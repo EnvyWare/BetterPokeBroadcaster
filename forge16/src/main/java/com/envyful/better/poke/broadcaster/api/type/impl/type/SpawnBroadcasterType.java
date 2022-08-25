@@ -49,13 +49,13 @@ public class SpawnBroadcasterType extends AbstractBroadcasterType<SpawnEvent> {
                 .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString());
     }
 
-    @SubscribeEvent
-    public void onPixelmonSpawn(SpawnEvent event) {
-        BroadcasterUtil.handleEvent(event);
-    }
-
     @Override
     public ServerPlayerEntity findNearestPlayer(SpawnEvent event, PixelmonEntity entity, double range) {
         return (ServerPlayerEntity) entity.level.getNearestPlayer(entity, range);
+    }
+
+    @SubscribeEvent
+    public void onPixelmonSpawn(SpawnEvent event) {
+        BroadcasterUtil.handleEvent(event);
     }
 }

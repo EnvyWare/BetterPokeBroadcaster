@@ -36,13 +36,13 @@ public class CaptureBroadcasterType extends AbstractBroadcasterType<CaptureEvent
                 .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString());
     }
 
-    @SubscribeEvent
-    public void onCapture(CaptureEvent.SuccessfulCapture event) {
-        BroadcasterUtil.handleEvent(event);
-    }
-
     @Override
     protected ServerPlayerEntity findNearestPlayer(CaptureEvent.SuccessfulCapture successfulCapture, PixelmonEntity entity, double range) {
         return successfulCapture.player;
+    }
+
+    @SubscribeEvent
+    public void onCapture(CaptureEvent.SuccessfulCapture event) {
+        BroadcasterUtil.handleEvent(event);
     }
 }

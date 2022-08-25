@@ -1,7 +1,7 @@
 package com.envyful.better.poke.broadcaster.api.type;
 
-import com.envyful.better.poke.broadcaster.api.type.impl.DefeatPokemonBroadcasterType;
 import com.envyful.better.poke.broadcaster.api.type.impl.type.CaptureBroadcasterType;
+import com.envyful.better.poke.broadcaster.api.type.impl.type.DefeatBroadcasterType;
 import com.envyful.better.poke.broadcaster.api.type.impl.type.SpawnBroadcasterType;
 import com.google.common.collect.Maps;
 import com.pixelmonmod.pixelmon.Pixelmon;
@@ -16,7 +16,7 @@ public class BroadcasterTypeRegistry {
     static {
         register(new SpawnBroadcasterType());
         register(new CaptureBroadcasterType());
-        register(new DefeatPokemonBroadcasterType());
+        register(new DefeatBroadcasterType());
     }
 
     public static void register(BroadcasterType<?> type) {
