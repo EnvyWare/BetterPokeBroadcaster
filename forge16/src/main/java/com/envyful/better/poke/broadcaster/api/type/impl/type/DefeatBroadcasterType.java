@@ -40,7 +40,7 @@ public class DefeatBroadcasterType extends AbstractBroadcasterType<BattleEndEven
     }
 
     public BattleResults getResult(BattleEndEvent event, EntityType<?> entityType) {
-        for (Map.Entry<BattleParticipant, BattleResults> entry : event.results.entrySet()) {
+        for (Map.Entry<BattleParticipant, BattleResults> entry : event.getResults().entrySet()) {
             if (Objects.equals(entityType, entry.getKey().getEntity().getType())) {
                 return entry.getValue();
             }
@@ -51,7 +51,7 @@ public class DefeatBroadcasterType extends AbstractBroadcasterType<BattleEndEven
 
     @Override
     protected PixelmonEntity getEntity(BattleEndEvent event) {
-        for (BattleParticipant battleParticipant : event.results.keySet()) {
+        for (BattleParticipant battleParticipant : event.getResults().keySet()) {
             if (battleParticipant instanceof WildPixelmonParticipant) {
                 return (PixelmonEntity)((WildPixelmonParticipant) battleParticipant).getEntity();
             }
