@@ -13,6 +13,10 @@ public class BroadcasterTypeRegistry {
 
     private static final Map<String, BroadcasterType<?>> TYPES = Maps.newHashMap();
 
+    public static void init() {
+
+    }
+
     static {
         register(new SpawnBroadcasterType());
         register(new CaptureBroadcasterType());
