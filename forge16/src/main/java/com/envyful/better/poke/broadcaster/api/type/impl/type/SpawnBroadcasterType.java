@@ -8,6 +8,7 @@ import com.pixelmonmod.pixelmon.api.util.helpers.BiomeHelper;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class SpawnBroadcasterType extends AbstractBroadcasterType<SpawnEvent> {
@@ -54,7 +55,7 @@ public class SpawnBroadcasterType extends AbstractBroadcasterType<SpawnEvent> {
         return (ServerPlayerEntity) entity.level.getNearestPlayer(event.action.spawnLocation.cause, range);
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPixelmonSpawn(SpawnEvent event) {
         BroadcasterUtil.handleEvent(event);
     }
