@@ -51,7 +51,7 @@ public class SpawnBroadcasterType extends AbstractBroadcasterType<SpawnEvent> {
 
     @Override
     public ServerPlayerEntity findNearestPlayer(SpawnEvent event, PixelmonEntity entity, double range) {
-        return (ServerPlayerEntity) entity.level.getNearestPlayer(entity, range);
+        return (ServerPlayerEntity) entity.level.getNearestPlayer(event.action.spawnLocation.cause, range);
     }
 
     @SubscribeEvent
