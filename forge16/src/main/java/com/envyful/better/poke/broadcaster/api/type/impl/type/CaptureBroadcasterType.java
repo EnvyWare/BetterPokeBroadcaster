@@ -38,7 +38,7 @@ public class CaptureBroadcasterType extends AbstractBroadcasterType<CaptureEvent
 
     @Override
     protected ServerPlayerEntity findNearestPlayer(CaptureEvent.SuccessfulCapture successfulCapture, PixelmonEntity entity, double range) {
-        return successfulCapture.player;
+        return successfulCapture.getPlayer();
     }
 
     @SubscribeEvent
