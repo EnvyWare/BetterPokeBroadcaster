@@ -30,6 +30,7 @@ repositories {
     }
 
     maven { url 'https://jitpack.io' }
+    maven { url "https://maven.envyware.co.uk/releases" }
 
     ivy {
         setUrl('https://download.nodecdn.net/containers/reforged/server/release')
@@ -50,11 +51,11 @@ dependencies {
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
 
-    shadow (group: 'com.github.EnvyWare.API', name: 'commons', version: '3.8.5')
-    shadow (group: 'com.github.EnvyWare.API', name: 'forge16', version: '3.8.5') {
+    shadow (group: 'com.envyful.api', name: 'commons', version: '4.0.1')
+    shadow (group: 'com.envyful.api', name: 'forge16', version: '4.0.1') {
         transitive = false
     }
-    shadow (group: 'com.github.EnvyWare.API', name: 'reforged16', version: '3.8.5') {
+    shadow (group: 'com.envyful.api', name: 'reforged16', version: '4.0.1') {
         transitive = false
     }
 }

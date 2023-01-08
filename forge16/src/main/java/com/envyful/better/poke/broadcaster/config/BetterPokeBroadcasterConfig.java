@@ -86,7 +86,7 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
         }
 
         public boolean isWebHookEnabled() {
-            return this.webhook == null || this.webhook.equalsIgnoreCase("none");
+            return this.webhook == null || !this.webhook.equalsIgnoreCase("none");
         }
 
         public boolean isNearestPlayerOnly() {
