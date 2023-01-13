@@ -35,7 +35,7 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
                     "&a%pokemon% %nearest_name% %x%, %y%, %z%, %world%",
                     "&8-------")
             ),
-            "two", new BroadcastOption("defaeat", "legendary", 30, "none", false, Lists.newArrayList(
+            "three", new BroadcastOption("defeat", "legendary", 30, "none", false, Lists.newArrayList(
                     "&8-------",
                     "&a%pokemon% %nearest_name% %x%, %y%, %z%, %world%",
                     "&8-------")
