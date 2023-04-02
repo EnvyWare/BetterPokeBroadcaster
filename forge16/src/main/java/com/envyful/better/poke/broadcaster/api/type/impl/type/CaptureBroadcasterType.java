@@ -40,6 +40,22 @@ public class CaptureBroadcasterType extends AbstractBroadcasterType<CaptureEvent
         float ivSDef = iVs.getStat(BattleStatsType.SPECIAL_DEFENSE);
         int percentage = Math.round(((ivHP + ivDef + ivAtk + ivSpeed + ivSAtk + ivSDef) / 186f) * 100);
 
+        final String sprite_gif_url = "https://play.pokemonshowdown.com/sprites/"
+                + (pokemon.isShiny() ? "ani-shiny/" : "ani/")
+                + pixelmon.getSpecies().getLocalizedName().toLowerCase()
+                .replace("nidoranmale","nidoranm")
+                .replace("nidoranfemale","nidoranf")
+                + (!pokemon.getForm().getName().isEmpty() ? "-" + pokemon.getForm().getName().toLowerCase() : "")
+                + ".gif";
+
+        final String sprite_png_url = "https://play.pokemonshowdown.com/sprites/"
+                + (pokemon.isShiny() ? "dex-shiny/" : "dex/")
+                + pixelmon.getSpecies().getLocalizedName().toLowerCase()
+                .replace("nidoranmale","nidoranm")
+                .replace("nidoranfemale","nidoranf")
+                + (!pokemon.getForm().getName().isEmpty() ? "-" + pokemon.getForm().getName().toLowerCase() : "")
+                + ".png";
+
         return line.replace("%player%", nearestPlayer.getName().getString())
                 .replace("%x%", pixelmon.getX() + "")
                 .replace("%y%", pixelmon.getY() + "")
@@ -65,7 +81,9 @@ public class CaptureBroadcasterType extends AbstractBroadcasterType<CaptureEvent
                 .replace("%form%", pixelmon.getForm().getLocalizedName())
                 .replace("%size%", pokemon.getGrowth().getLocalizedName())
                 .replace("%custom_texture%", pixelmon.getPalette().getLocalizedName())
-                .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString());
+                .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString())
+                .replace("%sprite_gif_url%", sprite_gif_url)
+                .replace("%sprite_png_url%", sprite_png_url);
     }
 
     @Override
