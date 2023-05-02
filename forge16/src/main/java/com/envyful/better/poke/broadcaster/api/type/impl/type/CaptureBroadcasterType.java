@@ -29,6 +29,7 @@ public class CaptureBroadcasterType extends AbstractBroadcasterType<CaptureEvent
 
     @Override
     protected String translateEventMessage(CaptureEvent.SuccessfulCapture event, String line, PixelmonEntity pixelmon, ServerPlayerEntity nearestPlayer) {
+        final int ivs = (int) Math.round(pixelmon.getPokemon().getIVs().getPercentage(2));
 
         return line.replace("%player%", nearestPlayer.getName().getString())
                 .replace("%x%", pixelmon.getX() + "")
@@ -38,6 +39,7 @@ public class CaptureBroadcasterType extends AbstractBroadcasterType<CaptureEvent
                 .replace("%pokemon%", pixelmon.getPokemonName())
                 .replace("%species%", pixelmon.getSpecies().getLocalizedName())
                 .replace("%species_lower%", pixelmon.getSpecies().getLocalizedName().toLowerCase(Locale.ROOT))
+                .replace("%ivs%", Integer.toString(ivs))
                 .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString());
     }
 

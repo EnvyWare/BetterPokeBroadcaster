@@ -43,6 +43,8 @@ public class SpawnBroadcasterType extends AbstractBroadcasterType<SpawnEvent> {
 
     @Override
     protected String translateEventMessage(SpawnEvent spawnEvent, String line, PixelmonEntity pixelmon, ServerPlayerEntity nearestPlayer) {
+        final int ivs = (int) Math.round(pixelmon.getPokemon().getIVs().getPercentage(2));
+
         return line.replace("%nearest_name%", nearestPlayer == null ? "None" : nearestPlayer.getName().getString())
                 .replace("%x%", pixelmon.getX() + "")
                 .replace("%y%", pixelmon.getY() + "")
@@ -51,6 +53,7 @@ public class SpawnBroadcasterType extends AbstractBroadcasterType<SpawnEvent> {
                 .replace("%pokemon%", pixelmon.getPokemonName())
                 .replace("%species%", pixelmon.getSpecies().getLocalizedName())
                 .replace("%species_lower%", pixelmon.getSpecies().getLocalizedName().toLowerCase(Locale.ROOT))
+                .replace("%ivs%", Integer.toString(ivs))
                 .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString());
     }
 
