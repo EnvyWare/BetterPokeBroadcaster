@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -68,6 +69,8 @@ public class DefeatBroadcasterType extends AbstractBroadcasterType<BattleEndEven
                 .replace("%z%", pixelmon.getZ() + "")
                 .replace("%world%", UtilWorld.getName(pixelmon.level) + "")
                 .replace("%pokemon%", pixelmon.getPokemonName())
+                .replace("%species%", pixelmon.getSpecies().getLocalizedName())
+                .replace("%species_lower%", pixelmon.getSpecies().getLocalizedName().toLowerCase(Locale.ROOT))
                 .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString());
     }
 

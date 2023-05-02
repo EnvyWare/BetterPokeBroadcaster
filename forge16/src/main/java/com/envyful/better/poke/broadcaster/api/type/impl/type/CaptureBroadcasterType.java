@@ -9,6 +9,8 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import java.util.Locale;
+
 public class CaptureBroadcasterType extends AbstractBroadcasterType<CaptureEvent.SuccessfulCapture> {
 
     public CaptureBroadcasterType() {
@@ -27,12 +29,15 @@ public class CaptureBroadcasterType extends AbstractBroadcasterType<CaptureEvent
 
     @Override
     protected String translateEventMessage(CaptureEvent.SuccessfulCapture event, String line, PixelmonEntity pixelmon, ServerPlayerEntity nearestPlayer) {
+
         return line.replace("%player%", nearestPlayer.getName().getString())
                 .replace("%x%", pixelmon.getX() + "")
                 .replace("%y%", pixelmon.getY() + "")
                 .replace("%z%", pixelmon.getZ() + "")
                 .replace("%world%", UtilWorld.getName(pixelmon.level) + "")
                 .replace("%pokemon%", pixelmon.getPokemonName())
+                .replace("%species%", pixelmon.getSpecies().getLocalizedName())
+                .replace("%species_lower%", pixelmon.getSpecies().getLocalizedName().toLowerCase(Locale.ROOT))
                 .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString());
     }
 

@@ -11,6 +11,8 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import java.util.Locale;
+
 public class SpawnBroadcasterType extends AbstractBroadcasterType<SpawnEvent> {
 
     public SpawnBroadcasterType() {
@@ -47,6 +49,8 @@ public class SpawnBroadcasterType extends AbstractBroadcasterType<SpawnEvent> {
                 .replace("%z%", pixelmon.getZ() + "")
                 .replace("%world%", UtilWorld.getName(pixelmon.level) + "")
                 .replace("%pokemon%", pixelmon.getPokemonName())
+                .replace("%species%", pixelmon.getSpecies().getLocalizedName())
+                .replace("%species_lower%", pixelmon.getSpecies().getLocalizedName().toLowerCase(Locale.ROOT))
                 .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level.getBiome(pixelmon.blockPosition())).getString());
     }
 
