@@ -6,6 +6,7 @@ import com.envyful.api.discord.DiscordWebHook;
 import com.envyful.api.reforged.pixelmon.UtilPokemonInfo;
 import com.envyful.api.reforged.pixelmon.config.SpriteConfig;
 import com.envyful.api.reforged.pixelmon.sprite.UtilSprite;
+import com.envyful.better.poke.broadcaster.BetterPokeBroadcaster;
 import com.envyful.better.poke.broadcaster.api.type.BroadcasterType;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -45,12 +46,18 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
             )
     );
 
+    private SpriteConfig placeholderFormat = new SpriteConfig();
+
     public BetterPokeBroadcasterConfig() {
         super();
     }
 
     public List<BroadcastOption> getOptions() {
         return Lists.newArrayList(broadcastOptions.values());
+    }
+
+    public SpriteConfig getPlaceholderFormat() {
+        return this.placeholderFormat;
     }
 
     @ConfigSerializable
@@ -109,7 +116,7 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
         public DiscordWebHook getWebHook(Event event, ServerPlayerEntity nearestPlayer, BroadcasterType<?> type, PixelmonEntity pixelmon) {
             if (this.readFile == null) {
                 try {
-                    this.readFile = UtilSprite.replacePokemonPlaceholders(String.join(System.lineSeparator(), Files.readAllLines(Paths.get(this.webhook), StandardCharsets.UTF_8)), pixelmon.getPokemon(), new SpriteConfig());
+                    this.readFile = UtilSprite.replacePokemonPlaceholders(String.join(System.lineSeparator(), Files.readAllLines(Paths.get(this.webhook), StandardCharsets.UTF_8)), pixelmon.getPokemon(), BetterPokeBroadcaster.getInstance().getConfig().getPlaceholderFormat());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
