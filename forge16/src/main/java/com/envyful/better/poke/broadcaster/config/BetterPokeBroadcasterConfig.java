@@ -3,6 +3,9 @@ package com.envyful.better.poke.broadcaster.config;
 import com.envyful.api.config.data.ConfigPath;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.discord.DiscordWebHook;
+import com.envyful.api.reforged.pixelmon.UtilPokemonInfo;
+import com.envyful.api.reforged.pixelmon.config.SpriteConfig;
+import com.envyful.api.reforged.pixelmon.sprite.UtilSprite;
 import com.envyful.better.poke.broadcaster.api.type.BroadcasterType;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -106,7 +109,7 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
         public DiscordWebHook getWebHook(Event event, ServerPlayerEntity nearestPlayer, BroadcasterType<?> type, PixelmonEntity pixelmon) {
             if (this.readFile == null) {
                 try {
-                    this.readFile = String.join(System.lineSeparator(), Files.readAllLines(Paths.get(this.webhook), StandardCharsets.UTF_8));
+                    this.readFile = UtilSprite.replacePokemonPlaceholders(String.join(System.lineSeparator(), Files.readAllLines(Paths.get(this.webhook), StandardCharsets.UTF_8)), pixelmon.getPokemon(), new SpriteConfig());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
