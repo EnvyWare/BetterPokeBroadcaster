@@ -3,6 +3,7 @@ package com.envyful.better.poke.broadcaster.api.type.impl.type;
 import com.envyful.api.forge.world.UtilWorld;
 import com.envyful.better.poke.broadcaster.api.type.impl.AbstractBroadcasterType;
 import com.envyful.better.poke.broadcaster.api.util.BroadcasterUtil;
+import com.pixelmonmod.pixelmon.api.battles.BattleEndCause;
 import com.pixelmonmod.pixelmon.api.battles.BattleResults;
 import com.pixelmonmod.pixelmon.api.events.battles.BattleEndEvent;
 import com.pixelmonmod.pixelmon.api.util.helpers.BiomeHelper;
@@ -33,6 +34,10 @@ public class DefeatBroadcasterType extends AbstractBroadcasterType<BattleEndEven
         BattleResults result = this.getResult(event, EntityType.PLAYER);
 
         if (result == null) {
+            return false;
+        }
+
+        if (event.getCause() != BattleEndCause.NORMAL) {
             return false;
         }
 
