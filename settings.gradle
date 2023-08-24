@@ -16,3 +16,4 @@ plugins {
 
 rootProject.name = 'BetterPokeBroadcaster'
 include 'forge16'
+include 'forge20'
