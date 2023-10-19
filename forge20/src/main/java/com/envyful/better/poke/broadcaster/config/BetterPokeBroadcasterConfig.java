@@ -15,6 +15,7 @@ import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.Event;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
+import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -45,6 +46,9 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
             )
     );
 
+    @Comment("""
+            The format for the GUI for sprites
+            """)
     private SpriteConfig placeholderFormat = new SpriteConfig();
 
     public BetterPokeBroadcasterConfig() {
@@ -62,13 +66,41 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
     @ConfigSerializable
     public static class BroadcastOption {
 
+        @Comment("""
+                The type of event to listen for.
+                The options are:
+                - spawn
+                - defeat
+                - capture
+                - flee
+                """)
         private String type;
+
+        @Comment("""
+                The broadcast will only fire if the spec matches
+                """)
         private String spec;
         private transient PokemonSpecification pokemonSpec;
+
+        @Comment("""
+                The radius to search from the event for the nearest player
+                """)
         private double nearestPlayerRadius;
+
+        @Comment("""
+                The broadcast to send
+                """)
         private List<String> broadcasts;
+
+        @Comment("""
+                The path to the file for the webhook JSON
+                """)
         private String webhook;
         private String readFile = null;
+
+        @Comment("""
+                If the nearest player is the only player messaged
+                """)
         private boolean nearestPlayerOnly;
 
         public BroadcastOption(String type, String spec, double nearestPlayerRadius, String webhook,
