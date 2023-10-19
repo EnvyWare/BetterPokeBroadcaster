@@ -42,7 +42,7 @@ public class BroadcasterUtil {
                         nearestPlayer.sendSystemMessage(UtilChatColour.colour(broadcasterType.translateMessage(event, broadcast, pixelmon, nearestPlayer)));
                     } else {
                         ServerLifecycleHooks.getCurrentServer().getPlayerList().broadcastSystemMessage(
-                                UtilChatColour.colour(broadcasterType.translateMessage(event, broadcast, pixelmon, nearestPlayer)), true
+                                UtilChatColour.colour(broadcasterType.translateMessage(event, broadcast, pixelmon, nearestPlayer)), false
                         );
                     }
                 }
