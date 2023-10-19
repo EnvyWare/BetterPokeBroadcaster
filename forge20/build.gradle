@@ -3,10 +3,10 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
-forgeVersion = "1.20.1"
+forgeVersion = "1.20.2"
 
 minecraft {
-    mappings channel: 'official', version: '1.20.1'
+    mappings channel: 'official', version: '1.20.2'
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
@@ -14,19 +14,19 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {}
 
 dependencies {
-    minecraft "net.minecraftforge:forge:1.20.1-47.1.44"
+    minecraft 'net.minecraftforge:forge:1.20.2-48.0.30'
 
-    implementation 'pixelmon:Pixelmon-1.20.1-9.2.1-server:9.2.1'
+    implementation 'pixelmon:Pixelmon-1.20.2-9.2.4-server:9.2.4'
 
-    implementation 'com.github.EnvyWare.ForgePlaceholderAPI:api:2.0.4'
+    implementation 'com.envyful.papi:api:2.0.5'
 
-    implementation group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
+    implementation group: 'org.spongepowered', name: 'configurate-yaml', version: '4.2.0-COMMENTS'
 
-    shadow group: 'com.envyful.api', name: 'commons', version: '5.0.2'
-    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.0.2') {
+    shadow group: 'com.envyful.api', name: 'commons', version: '5.5.2'
+    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.5.2') {
         transitive = false;
     }
-    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.0.2') {
+    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.5.2') {
         transitive = false;
     }
 }
@@ -39,23 +39,21 @@ shadowJar {
     relocate('org.spongepowered.configurate', 'com.envyful.better.poke.broadcaster.shade.configurate')
     relocate('org.yaml.snakeyaml', 'com.envyful.better.poke.broadcaster.shade.snakeyaml')
     relocate('io.leangen.geantyref', 'com.envyful.better.poke.broadcaster.shade.geantyref')
-    relocate('com.google.gson', 'com.envyful.better.poke.broadcaster.shade.gson')
     relocate('com.zaxxer', 'com.envyful.better.poke.broadcaster.shade.hikari')
     relocate('org.slf4j', 'com.envyful.better.poke.broadcaster.shade.slf4j')
     relocate('com.envyful.api', 'com.envyful.better.poke.broadcaster.shade.envy.api')
     relocate('org.bstats', 'com.envyful.better.poke.broadcaster.shade.bstats')
-    relocate('com.google.common', 'com.envyful.better.poke.broadcaster.shade.guava')
     relocate('org.apache.logging', 'com.envyful.better.poke.broadcaster.shade.log4j')
     relocate('io.netty', 'com.envyful.better.poke.broadcaster.shade.netty')
     relocate('io.lettuce', 'com.envyful.better.poke.broadcaster.shade.lettuce')
     relocate('com.cronutils', 'com.envyful.better.poke.broadcaster.shade.cronutils')
     relocate('com.cronutils', 'com.envyful.better.poke.broadcaster.shade.cronutils')
     relocate('com.sun.el', 'com.envyful.better.poke.broadcaster.shade.sun.el')
-    relocate('javax', 'com.envyful.better.poke.broadcaster.shade.javax')
-    relocate('javax', 'com.envyful.better.poke.broadcaster.shade.javax')
     relocate('org.reactivestreams', 'com.envyful.better.poke.broadcaster.shade.reactivestreams')
     relocate('reactor', 'com.envyful.better.poke.broadcaster.shade.reactor')
 
+    exclude "com/google/**"
+    exclude "javax/**"
     exclude "**/module-info.class"
     exclude "**/*.properties"
     exclude "**/*.xml"

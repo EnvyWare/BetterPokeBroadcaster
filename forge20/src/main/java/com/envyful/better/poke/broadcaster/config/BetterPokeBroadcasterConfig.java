@@ -94,7 +94,7 @@ public class BetterPokeBroadcasterConfig extends AbstractYamlConfig {
 
         public PokemonSpecification getSpec() {
             if (this.pokemonSpec == null) {
-                this.pokemonSpec = PokemonSpecificationProxy.create(this.spec);
+                this.pokemonSpec = PokemonSpecificationProxy.create(this.spec).get();
             }
 
             return this.pokemonSpec;

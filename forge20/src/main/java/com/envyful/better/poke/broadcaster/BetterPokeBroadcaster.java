@@ -3,6 +3,7 @@ package com.envyful.better.poke.broadcaster;
 import com.envyful.api.concurrency.UtilLogger;
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.command.ForgeCommandFactory;
+import com.envyful.api.forge.command.parser.ForgeAnnotationCommandParser;
 import com.envyful.better.poke.broadcaster.api.type.BroadcasterTypeRegistry;
 import com.envyful.better.poke.broadcaster.command.PokeBroadcasterCommand;
 import com.envyful.better.poke.broadcaster.config.BetterPokeBroadcasterConfig;
@@ -23,7 +24,7 @@ public class BetterPokeBroadcaster {
 
     private static BetterPokeBroadcaster instance;
 
-    private ForgeCommandFactory commandFactory = new ForgeCommandFactory();
+    private ForgeCommandFactory commandFactory = new ForgeCommandFactory(ForgeAnnotationCommandParser::new, null);
 
     private BetterPokeBroadcasterConfig config;
     private Logger logger = LogManager.getLogger(MOD_ID);
@@ -50,7 +51,7 @@ public class BetterPokeBroadcaster {
 
     @SubscribeEvent
     public void onCommandRegister(RegisterCommandsEvent event) {
-        this.commandFactory.registerCommand(event.getDispatcher(), new PokeBroadcasterCommand());
+        this.commandFactory.registerCommand(event.getDispatcher(), this.commandFactory.parseCommand(new PokeBroadcasterCommand()));
     }
 
     public static BetterPokeBroadcaster getInstance() {
