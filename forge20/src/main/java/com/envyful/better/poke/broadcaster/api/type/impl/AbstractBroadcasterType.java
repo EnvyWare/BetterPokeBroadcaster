@@ -1,18 +1,24 @@
 package com.envyful.better.poke.broadcaster.api.type.impl;
 
+import com.envyful.api.text.Placeholder;
 import com.envyful.better.poke.broadcaster.api.type.BroadcasterType;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.IEventBus;
 
-public abstract class AbstractBroadcasterType<A extends Event> implements BroadcasterType<A> {
+public abstract class AbstractBroadcasterType<A extends Event> implements BroadcasterType {
 
     protected final String id;
     protected final Class<A> clazz;
 
-    public AbstractBroadcasterType(String id, Class<A> clazz) {
+    protected AbstractBroadcasterType(String id, Class<A> clazz, IEventBus... eventBus) {
         this.id = id;
         this.clazz = clazz;
+
+        for (IEventBus bus : eventBus) {
+            bus.register(this);
+        }
     }
 
     @Override
@@ -21,12 +27,13 @@ public abstract class AbstractBroadcasterType<A extends Event> implements Broadc
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean isCorrectEvent(Event e) {
         if (!e.getClass().isAssignableFrom(this.clazz)) {
             return false;
         }
 
-        return this.isEvent(this.clazz.cast(e));
+        return this.isEvent((A) e);
     }
 
     protected abstract boolean isEvent(A a);
@@ -38,16 +45,17 @@ public abstract class AbstractBroadcasterType<A extends Event> implements Broadc
 
     protected abstract PixelmonEntity getEntity(A a);
 
-    @Override
-    public String translateMessage(Event e, String line, PixelmonEntity pixelmon, ServerPlayer nearestPlayer) {
-        return this.translateEventMessage(this.clazz.cast(e), line, pixelmon, nearestPlayer);
+    @SuppressWarnings("unchecked")
+    public Placeholder asPlaceholder(Event e, PixelmonEntity pixelmon, ServerPlayer nearestPlayer) {
+        return this.asEventPlaceholder((A) e, pixelmon, nearestPlayer);
     }
 
-    protected abstract String translateEventMessage(A a, String line, PixelmonEntity pixelmon,  ServerPlayer nearestPlayer);
+    protected abstract Placeholder asEventPlaceholder(A a, PixelmonEntity pixelmon, ServerPlayer nearestPlayer);
 
     @Override
+    @SuppressWarnings("unchecked")
     public ServerPlayer getNearestPlayer(Event event, PixelmonEntity entity, double range) {
-        return this.findNearestPlayer(this.clazz.cast(event), entity, range);
+        return this.findNearestPlayer((A) event, entity, range);
     }
 
     protected abstract ServerPlayer findNearestPlayer(A a, PixelmonEntity entity, double range);

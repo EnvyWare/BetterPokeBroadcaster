@@ -3,7 +3,8 @@ package com.envyful.better.poke.broadcaster;
 import com.envyful.api.concurrency.UtilLogger;
 import com.envyful.api.config.yaml.YamlConfigFactory;
 import com.envyful.api.forge.command.ForgeCommandFactory;
-import com.envyful.api.forge.command.parser.ForgeAnnotationCommandParser;
+import com.envyful.api.forge.platform.ForgePlatformHandler;
+import com.envyful.api.platform.PlatformProxy;
 import com.envyful.better.poke.broadcaster.api.type.BroadcasterTypeRegistry;
 import com.envyful.better.poke.broadcaster.command.PokeBroadcasterCommand;
 import com.envyful.better.poke.broadcaster.config.BetterPokeBroadcasterConfig;
@@ -22,15 +23,17 @@ public class BetterPokeBroadcaster {
 
     public static final String MOD_ID = "betterpokebroadcaster";
 
+    private static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+
     private static BetterPokeBroadcaster instance;
 
-    private ForgeCommandFactory commandFactory = new ForgeCommandFactory(ForgeAnnotationCommandParser::new, null);
+    private ForgeCommandFactory commandFactory = new ForgeCommandFactory();
 
     private BetterPokeBroadcasterConfig config;
-    private Logger logger = LogManager.getLogger(MOD_ID);
 
     public BetterPokeBroadcaster() {
-        UtilLogger.setLogger(logger);
+        PlatformProxy.setHandler(ForgePlatformHandler.getInstance());
+        UtilLogger.setLogger(LOGGER);
         instance = this;
         MinecraftForge.EVENT_BUS.register(this);
         BroadcasterTypeRegistry.init();
@@ -38,14 +41,14 @@ public class BetterPokeBroadcaster {
 
     @SubscribeEvent
     public void onServerStart(ServerStartingEvent event) {
-        this.reloadConfig();
+        reloadConfig();
     }
 
-    public void reloadConfig() {
+    public static void reloadConfig() {
         try {
-            this.config = YamlConfigFactory.getInstance(BetterPokeBroadcasterConfig.class);
+            instance.config = YamlConfigFactory.getInstance(BetterPokeBroadcasterConfig.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Error loading the config", e);
         }
     }
 
@@ -54,11 +57,11 @@ public class BetterPokeBroadcaster {
         this.commandFactory.registerCommand(event.getDispatcher(), this.commandFactory.parseCommand(new PokeBroadcasterCommand()));
     }
 
-    public static BetterPokeBroadcaster getInstance() {
-        return instance;
+    public static BetterPokeBroadcasterConfig getConfig() {
+        return instance.config;
     }
 
-    public BetterPokeBroadcasterConfig getConfig() {
-        return this.config;
+    public static Logger getLogger() {
+        return LOGGER;
     }
 }

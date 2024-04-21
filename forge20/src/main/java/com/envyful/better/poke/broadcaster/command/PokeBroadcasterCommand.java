@@ -19,7 +19,7 @@ public class PokeBroadcasterCommand {
 
     @CommandProcessor
     public void onCommand(@Sender CommandSource source, String[] args) {
-        BetterPokeBroadcaster.getInstance().reloadConfig();
+        BetterPokeBroadcaster.reloadConfig();
         source.sendSystemMessage(Component.literal("Reloaded config"));
     }
 }

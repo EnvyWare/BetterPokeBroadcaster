@@ -16,17 +16,17 @@ repositories {}
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.2-48.0.30'
 
-    implementation 'pixelmon:Pixelmon-1.20.2-9.2.4-server:9.2.4'
+    implementation 'pixelmon:Pixelmon-1.20.2-9.2.7-server:9.2.7'
 
     implementation 'com.envyful.papi:api:2.0.5'
 
     implementation group: 'org.spongepowered', name: 'configurate-yaml', version: '4.2.0-COMMENTS'
 
-    shadow group: 'com.envyful.api', name: 'commons', version: '5.5.2'
-    shadow (group: 'com.envyful.api', name: 'forge20', version: '5.5.2') {
+    shadow group: 'com.envyful.api', name: 'commons', version: '6.1.7'
+    shadow (group: 'com.envyful.api', name: 'forge20', version: '6.1.7') {
         transitive = false;
     }
-    shadow (group: 'com.envyful.api', name: 'reforged20', version: '5.5.2') {
+    shadow (group: 'com.envyful.api', name: 'reforged20', version: '6.1.7') {
         transitive = false;
     }
 }
@@ -36,6 +36,7 @@ shadowJar {
     setArchiveClassifier('')
     setArchiveBaseName("${rootProject.name}-Forge")
 
+    relocate('org.apache.commons.jexl', 'com.envyful.better.poke.broadcaster.shade.jexl')
     relocate('org.spongepowered.configurate', 'com.envyful.better.poke.broadcaster.shade.configurate')
     relocate('org.yaml.snakeyaml', 'com.envyful.better.poke.broadcaster.shade.snakeyaml')
     relocate('io.leangen.geantyref', 'com.envyful.better.poke.broadcaster.shade.geantyref')
@@ -43,20 +44,17 @@ shadowJar {
     relocate('org.slf4j', 'com.envyful.better.poke.broadcaster.shade.slf4j')
     relocate('com.envyful.api', 'com.envyful.better.poke.broadcaster.shade.envy.api')
     relocate('org.bstats', 'com.envyful.better.poke.broadcaster.shade.bstats')
-    relocate('org.apache.logging', 'com.envyful.better.poke.broadcaster.shade.log4j')
     relocate('io.netty', 'com.envyful.better.poke.broadcaster.shade.netty')
     relocate('io.lettuce', 'com.envyful.better.poke.broadcaster.shade.lettuce')
-    relocate('com.cronutils', 'com.envyful.better.poke.broadcaster.shade.cronutils')
     relocate('com.cronutils', 'com.envyful.better.poke.broadcaster.shade.cronutils')
     relocate('com.sun.el', 'com.envyful.better.poke.broadcaster.shade.sun.el')
     relocate('org.reactivestreams', 'com.envyful.better.poke.broadcaster.shade.reactivestreams')
     relocate('reactor', 'com.envyful.better.poke.broadcaster.shade.reactor')
+    relocate('com.mysql', 'com.envyful.better.poke.broadcaster.shade.mysql')
 
     exclude "com/google/**"
     exclude "javax/**"
     exclude "**/module-info.class"
-    exclude "**/*.properties"
-    exclude "**/*.xml"
     exclude "META-INF/versions/9/**"
     exclude "META-INF/native-image/**"
     exclude "META-INF/services/**"
