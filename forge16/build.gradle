@@ -3,7 +3,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(11)
 
 forgeVersion = "1.16.5"
 
@@ -13,61 +13,54 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-repositories {
-    maven {
-        name = 'spongepowered-repo'
-        url = 'https://repo.spongepowered.org/maven'
-    }
-
-    maven { url 'https://jitpack.io' }
-    maven { url "https://maven.envyware.co.uk/releases" }
-
-    ivy {
-        setUrl('https://download.nodecdn.net/containers/reforged/server/release')
-        metadataSources {
-            artifact()
-        }
-        patternLayout {
-            artifact('[revision]/[artifact].[ext]')
-        }
-    }
-}
+repositories {}
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
-    implementation 'pixelmon:Pixelmon-1.16.5-9.1.7-server:9.1.7'
+    implementation 'pixelmon:Pixelmon-1.16.5-9.1.11-server:9.1.11'
 
-    compileOnly 'com.github.EnvyWare.ForgePlaceholderAPI:api:2.0.4'
+    compileOnly "com.envyful.papi:api:2.0.5"
 
-    shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.0.0'
+    shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.2.0-COMMENTS'
 
-    shadow (group: 'com.envyful.api', name: 'commons', version: '4.8.2')
-    shadow (group: 'com.envyful.api', name: 'forge16', version: '4.8.2') {
+    shadow (group: 'com.envyful.api', name: 'commons', version: '6.1.7')
+    shadow (group: 'com.envyful.api', name: 'forge16', version: '6.1.7') {
         transitive = false
     }
-    shadow (group: 'com.envyful.api', name: 'reforged16', version: '4.8.2') {
+    shadow (group: 'com.envyful.api', name: 'reforged16', version: '6.1.7') {
         transitive = false
     }
 }
 
 shadowJar {
-    finalizedBy('reobfJar')
     configurations = [project.configurations.shadow]
-    zip64 = true
     setArchiveClassifier('')
-    setArchiveBaseName(rootProject.name + "-Forge")
-
+    setArchiveBaseName("${rootProject.name}-Forge")
+    
+    relocate('org.apache.commons.jexl', 'com.envyful.better.poke.broadcaster.shade.jexl')
     relocate('org.spongepowered.configurate', 'com.envyful.better.poke.broadcaster.shade.configurate')
     relocate('org.yaml.snakeyaml', 'com.envyful.better.poke.broadcaster.shade.snakeyaml')
     relocate('io.leangen.geantyref', 'com.envyful.better.poke.broadcaster.shade.geantyref')
-    relocate('com.google.gson', 'com.envyful.better.poke.broadcaster.shade.gson')
     relocate('com.zaxxer', 'com.envyful.better.poke.broadcaster.shade.hikari')
     relocate('org.slf4j', 'com.envyful.better.poke.broadcaster.shade.slf4j')
     relocate('com.envyful.api', 'com.envyful.better.poke.broadcaster.shade.envy.api')
     relocate('org.bstats', 'com.envyful.better.poke.broadcaster.shade.bstats')
+    relocate('io.netty', 'com.envyful.better.poke.broadcaster.shade.netty')
+    relocate('io.lettuce', 'com.envyful.better.poke.broadcaster.shade.lettuce')
+    relocate('com.cronutils', 'com.envyful.better.poke.broadcaster.shade.cronutils')
+    relocate('com.sun.el', 'com.envyful.better.poke.broadcaster.shade.sun.el')
+    relocate('org.reactivestreams', 'com.envyful.better.poke.broadcaster.shade.reactivestreams')
+    relocate('reactor', 'com.envyful.better.poke.broadcaster.shade.reactor')
+    relocate('com.mysql', 'com.envyful.better.poke.broadcaster.shade.mysql')
 
+    exclude "com/google/**"
+    exclude "javax/**"
     exclude "**/module-info.class"
+    exclude "META-INF/versions/9/**"
+    exclude "META-INF/native-image/**"
+    exclude "META-INF/services/**"
 }
 
 jar.finalizedBy('shadowJar')
+shadowJar.finalizedBy('reobfJar')
 build.finalizedBy('versionedRelease')

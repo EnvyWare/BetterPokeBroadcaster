@@ -4,6 +4,10 @@ subprojects {
     group = 'com.envyful.better.poke.broadcaster'
     version = '1.4.1'
 
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
     ext {
         forgeVersion = "none"
     }
