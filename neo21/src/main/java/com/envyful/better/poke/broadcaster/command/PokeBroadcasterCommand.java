@@ -4,9 +4,8 @@ import com.envyful.api.command.annotate.Command;
 import com.envyful.api.command.annotate.executor.CommandProcessor;
 import com.envyful.api.command.annotate.executor.Sender;
 import com.envyful.api.command.annotate.permission.Permissible;
+import com.envyful.api.platform.Messageable;
 import com.envyful.better.poke.broadcaster.BetterPokeBroadcaster;
-import net.minecraft.commands.CommandSource;
-import net.minecraft.network.chat.Component;
 
 @Command(
         value = {
@@ -18,8 +17,8 @@ import net.minecraft.network.chat.Component;
 public class PokeBroadcasterCommand {
 
     @CommandProcessor
-    public void onCommand(@Sender CommandSource source, String[] args) {
+    public void onCommand(@Sender Messageable<?> source, String[] args) {
         BetterPokeBroadcaster.reloadConfig();
-        source.sendSystemMessage(Component.literal("Reloaded config"));
+        source.message("Reloaded config");
     }
 }

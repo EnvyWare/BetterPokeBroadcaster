@@ -5,7 +5,7 @@ import com.envyful.api.platform.PlatformProxy;
 import com.envyful.better.poke.broadcaster.BetterPokeBroadcaster;
 import com.envyful.better.poke.broadcaster.api.type.BroadcasterTypeRegistry;
 import com.envyful.better.poke.broadcaster.config.BroadcastOption;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
 
 public class BroadcasterUtil {
 

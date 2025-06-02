@@ -2,17 +2,17 @@ package com.envyful.better.poke.broadcaster;
 
 import com.envyful.api.concurrency.UtilLogger;
 import com.envyful.api.config.yaml.YamlConfigFactory;
-import com.envyful.api.forge.command.ForgeCommandFactory;
-import com.envyful.api.forge.platform.ForgePlatformHandler;
+import com.envyful.api.neoforge.command.ForgeCommandFactory;
+import com.envyful.api.neoforge.platform.ForgePlatformHandler;
 import com.envyful.api.platform.PlatformProxy;
 import com.envyful.better.poke.broadcaster.api.type.BroadcasterTypeRegistry;
 import com.envyful.better.poke.broadcaster.command.PokeBroadcasterCommand;
 import com.envyful.better.poke.broadcaster.config.BetterPokeBroadcasterConfig;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,7 +35,7 @@ public class BetterPokeBroadcaster {
         PlatformProxy.setHandler(ForgePlatformHandler.getInstance());
         UtilLogger.setLogger(LOGGER);
         instance = this;
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
         BroadcasterTypeRegistry.init();
     }
 

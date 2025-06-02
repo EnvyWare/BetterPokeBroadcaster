@@ -4,8 +4,8 @@ import com.envyful.api.text.Placeholder;
 import com.envyful.better.poke.broadcaster.api.type.BroadcasterType;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.IEventBus;
 
 public abstract class AbstractBroadcasterType<A extends Event> implements BroadcasterType {
 
@@ -16,7 +16,7 @@ public abstract class AbstractBroadcasterType<A extends Event> implements Broadc
         this.id = id;
         this.clazz = clazz;
 
-        for (IEventBus bus : eventBus) {
+        for (var bus : eventBus) {
             bus.register(this);
         }
     }
@@ -50,7 +50,7 @@ public abstract class AbstractBroadcasterType<A extends Event> implements Broadc
         return this.asEventPlaceholder((A) e, pixelmon, nearestPlayer);
     }
 
-    protected abstract Placeholder asEventPlaceholder(A a, PixelmonEntity pixelmon, ServerPlayer nearestPlayer);
+    protected abstract Placeholder asEventPlaceholder(A a, PixelmonEntity pixelmon,  ServerPlayer nearestPlayer);
 
     @Override
     @SuppressWarnings("unchecked")

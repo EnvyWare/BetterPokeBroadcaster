@@ -3,7 +3,7 @@ package com.envyful.better.poke.broadcaster.api.type;
 import com.envyful.api.text.Placeholder;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
 
 public interface BroadcasterType {
 

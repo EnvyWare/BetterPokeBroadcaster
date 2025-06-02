@@ -1,9 +1,7 @@
 package com.envyful.better.poke.broadcaster.config;
 
-import com.envyful.api.config.data.ScalarSerializers;
 import com.envyful.api.config.yaml.AbstractYamlConfig;
 import com.envyful.api.discord.yaml.DiscordWebHookConfig;
-import com.envyful.api.reforged.config.PokemonSpecSerializer;
 import com.envyful.api.text.Placeholder;
 import com.envyful.better.poke.broadcaster.BetterPokeBroadcaster;
 import com.pixelmonmod.api.pokemon.PokemonSpecification;
@@ -15,7 +13,6 @@ import java.io.IOException;
 import java.util.List;
 
 @ConfigSerializable
-@ScalarSerializers(PokemonSpecSerializer.class)
 public class BroadcastOption extends AbstractYamlConfig {
 
     @Comment("If this is false then this broadcast option will not be checked. This option is useful for disabling the defaults provided with the mod as you cannot delete those files, only modify them.")

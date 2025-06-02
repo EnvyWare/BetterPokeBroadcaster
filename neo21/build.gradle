@@ -1,12 +1,14 @@
 plugins {
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id 'net.neoforged.moddev' version '2.0.80'
+    id 'com.gradleup.shadow' version '8.3.6'
 }
 
-forgeVersion = "1.20.2"
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+forgeVersion = "1.21.1"
+platform = "NeoForge"
 
-minecraft {
-    mappings channel: 'official', version: '1.20.2'
+neoForge {
+    version = "21.1.162"
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
@@ -14,27 +16,26 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {}
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.2-48.0.30'
+    implementation "pixelmon:Pixelmon-1.21.1-9.3.2-universal:9.3.2"
+    interfaceInjectionData("pixelmon:Pixelmon-1.21.1-9.3.2-universal-interfaceinjection:9.3.2@json")
 
-    implementation 'pixelmon:Pixelmon-1.20.2-9.2.7-server:9.2.7'
+    compileOnly "com.envyful.papi:api:2.1.0"
 
-    implementation 'com.envyful.papi:api:2.0.5'
+    shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.2.0-COMMENTS'
 
-    implementation group: 'org.spongepowered', name: 'configurate-yaml', version: '4.2.0-COMMENTS'
-
-    shadow group: 'com.envyful.api', name: 'commons', version: '6.1.7'
-    shadow (group: 'com.envyful.api', name: 'forge20', version: '6.1.7') {
-        transitive = false;
+    shadow (group: 'com.envyful.api', name: 'commons', version: '8.0.6')
+    shadow (group: 'com.envyful.api', name: 'neo21', version: '8.0.6') {
+        transitive = false
     }
-    shadow (group: 'com.envyful.api', name: 'reforged20', version: '6.1.7') {
-        transitive = false;
+    shadow (group: 'com.envyful.api', name: 'pixel21', version: '8.0.6') {
+        transitive = false
     }
 }
 
 shadowJar {
     configurations = [project.configurations.shadow]
     setArchiveClassifier('')
-    setArchiveBaseName("${rootProject.name}-Forge")
+    setArchiveBaseName("${rootProject.name}-NeoForge")
 
     relocate('org.apache.commons.jexl', 'com.envyful.better.poke.broadcaster.shade.jexl')
     relocate('org.spongepowered.configurate', 'com.envyful.better.poke.broadcaster.shade.configurate')
@@ -51,8 +52,11 @@ shadowJar {
     relocate('org.reactivestreams', 'com.envyful.better.poke.broadcaster.shade.reactivestreams')
     relocate('reactor', 'com.envyful.better.poke.broadcaster.shade.reactor')
     relocate('com.mysql', 'com.envyful.better.poke.broadcaster.shade.mysql')
+    relocate('uk.co.envyware.helios', 'com.envyful.better.poke.broadcaster.shade.uk.co.envyware.helios')
 
     exclude "com/google/**"
+    exclude "org/apache/commons/logging/**"
+    exclude "org/apache/logging/log4j/**"
     exclude "javax/**"
     exclude "**/module-info.class"
     exclude "META-INF/versions/9/**"
@@ -61,5 +65,4 @@ shadowJar {
 }
 
 jar.finalizedBy('shadowJar')
-shadowJar.finalizedBy('reobfJar')
 build.finalizedBy('versionedRelease')

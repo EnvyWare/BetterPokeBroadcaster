@@ -1,6 +1,6 @@
 package com.envyful.better.poke.broadcaster.api.type.impl.type;
 
-import com.envyful.api.forge.world.UtilWorld;
+import com.envyful.api.neoforge.world.UtilWorld;
 import com.envyful.api.reforged.pixelmon.sprite.UtilSprite;
 import com.envyful.api.text.Placeholder;
 import com.envyful.better.poke.broadcaster.BetterPokeBroadcaster;
@@ -16,7 +16,7 @@ import com.pixelmonmod.pixelmon.battles.controller.participants.WildPixelmonPart
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 
 import java.util.Map;
 import java.util.Objects;
@@ -58,7 +58,7 @@ public class FleeBroadcasterType extends AbstractBroadcasterType<BattleEndEvent>
     protected PixelmonEntity getEntity(BattleEndEvent event) {
         for (BattleParticipant battleParticipant : event.getResults().keySet()) {
             if (battleParticipant instanceof WildPixelmonParticipant) {
-                return (PixelmonEntity)((WildPixelmonParticipant) battleParticipant).getEntity();
+                return (PixelmonEntity)(battleParticipant).getEntity();
             }
         }
 
@@ -67,13 +67,14 @@ public class FleeBroadcasterType extends AbstractBroadcasterType<BattleEndEvent>
 
     @Override
     protected Placeholder asEventPlaceholder(BattleEndEvent event, PixelmonEntity pixelmon, ServerPlayer nearestPlayer) {
-        return Placeholder.simple(line -> UtilSprite.replacePokemonPlaceholders(line.replace("%nearest_name%", nearestPlayer == null ? "None" : nearestPlayer.getName().getString())
+        return BetterPokeBroadcaster.getConfig().getPlaceholderFormat().getPokemonPlaceholders(pixelmon.getPokemon(),
+                Placeholder.simple(line -> line.replace("%nearest_name%", nearestPlayer == null ? "None" : nearestPlayer.getName().getString())
                 .replace("%x%", pixelmon.getX() + "")
                 .replace("%y%", pixelmon.getY() + "")
                 .replace("%z%", pixelmon.getZ() + "")
-                .replace("%world%", UtilWorld.getName(pixelmon.level()))
+                .replace("%world%", UtilWorld.getName(pixelmon.level()) + "")
                 .replace("%pokemon%", pixelmon.getPokemonName())
-                .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level().getBiome(pixelmon.blockPosition())).getString()), pixelmon.getPokemon(), BetterPokeBroadcaster.getConfig().getPlaceholderFormat()));
+                .replace("%biome%", BiomeHelper.getLocalizedBiomeName(pixelmon.level().getBiome(pixelmon.blockPosition())).getString())));
     }
 
     @Override
