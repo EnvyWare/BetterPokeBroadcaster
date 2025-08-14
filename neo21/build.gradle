@@ -16,18 +16,18 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {}
 
 dependencies {
-    implementation "pixelmon:Pixelmon-1.21.1-9.3.2-universal:9.3.2"
-    interfaceInjectionData("pixelmon:Pixelmon-1.21.1-9.3.2-universal-interfaceinjection:9.3.2@json")
+    implementation "pixelmon:Pixelmon-1.21.1-9.3.7-universal:9.3.7"
+    interfaceInjectionData("pixelmon:Pixelmon-1.21.1-9.3.7-universal-interfaceinjection:9.3.7@json")
 
     compileOnly "com.envyful.papi:api:2.1.0"
 
     shadow group: 'org.spongepowered', name: 'configurate-yaml', version: '4.2.0-COMMENTS'
 
-    shadow (group: 'com.envyful.api', name: 'commons', version: '8.0.6')
-    shadow (group: 'com.envyful.api', name: 'neo21', version: '8.0.6') {
+    shadow (group: 'com.envyful.api', name: 'commons', version: '8.1.9')
+    shadow (group: 'com.envyful.api', name: 'neo21', version: '8.1.9') {
         transitive = false
     }
-    shadow (group: 'com.envyful.api', name: 'pixel21', version: '8.0.6') {
+    shadow (group: 'com.envyful.api', name: 'pixel21', version: '8.1.9') {
         transitive = false
     }
 }
