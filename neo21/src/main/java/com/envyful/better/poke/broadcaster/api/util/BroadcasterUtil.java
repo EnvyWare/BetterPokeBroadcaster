@@ -3,22 +3,21 @@ package com.envyful.better.poke.broadcaster.api.util;
 import com.envyful.api.concurrency.UtilConcurrency;
 import com.envyful.api.platform.PlatformProxy;
 import com.envyful.better.poke.broadcaster.BetterPokeBroadcaster;
+import com.envyful.better.poke.broadcaster.api.type.BroadcasterType;
 import com.envyful.better.poke.broadcaster.api.type.BroadcasterTypeRegistry;
 import com.envyful.better.poke.broadcaster.config.BroadcastOption;
 import net.neoforged.bus.api.Event;
 
 public class BroadcasterUtil {
 
-    public static void handleEvent(Event event) {
+    public static void handleEvent(BroadcasterType broadcasterType, Event event) {
         UtilConcurrency.runAsync(() -> {
             for (var option : BetterPokeBroadcaster.getConfig().getOptions()) {
                 if (!option.isEnabled()) {
                     continue;
                 }
 
-                var broadcasterType = BroadcasterTypeRegistry.get(option.getType());
-
-                if (broadcasterType == null || !broadcasterType.isCorrectEvent(event)) {
+                if (BroadcasterTypeRegistry.get(option.getType()) != broadcasterType || !broadcasterType.isCorrectEvent(event)) {
                     continue;
                 }
 

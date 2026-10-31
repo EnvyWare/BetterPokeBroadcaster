@@ -88,6 +88,6 @@ public class DefeatBroadcasterType extends AbstractBroadcasterType<BattleEndEven
 
     @SubscribeEvent
     public void onBattleEnd(BattleEndEvent event) {
-        BroadcasterUtil.handleEvent(event);
+        BroadcasterUtil.handleEvent(this, event);
     }
 }
