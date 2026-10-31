@@ -84,6 +84,6 @@ public class FleeBroadcasterType extends AbstractBroadcasterType<BattleEndEvent>
 
     @SubscribeEvent
     public void onBattleEnd(BattleEndEvent event) {
-        BroadcasterUtil.handleEvent(event);
+        BroadcasterUtil.handleEvent(this, event);
     }
 }

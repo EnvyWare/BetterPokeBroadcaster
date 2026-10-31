@@ -62,6 +62,6 @@ public class SpawnBroadcasterType extends AbstractBroadcasterType<SpawnEvent> {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPixelmonSpawn(SpawnEvent event) {
-        BroadcasterUtil.handleEvent(event);
+        BroadcasterUtil.handleEvent(this, event);
     }
 }
