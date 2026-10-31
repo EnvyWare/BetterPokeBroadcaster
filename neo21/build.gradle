@@ -16,8 +16,8 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {}
 
 dependencies {
-    implementation "pixelmon:Pixelmon-1.21.1-9.3.7-universal:9.3.7"
-    interfaceInjectionData("pixelmon:Pixelmon-1.21.1-9.3.7-universal-interfaceinjection:9.3.7@json")
+    implementation "pixelmon:Pixelmon-1.21.1-9.4.2-universal:9.4.2"
+    interfaceInjectionData("pixelmon:Pixelmon-1.21.1-9.4.2-universal-interfaceinjection:9.4.2@json")
 
     compileOnly "com.envyful.papi:api:2.1.0"
 
